@@ -27,6 +27,13 @@ jobs:
           curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
           ibmcloud --version
           ibmcloud config --check-version=false
+          pip3 install -r requirements.txt
+          python3 manage.py makemigrations
+          python3 manage.py makemigrations djangoapp
+          python3 manage.py migrate --run-syncdb
+          python3 manage.py migrate
+          export DJANGO_SUPERUSER_PASSWORD=adminroot
+          python3 manage.py createsuperuser --noinput --username root --email root@gmail.com
         shell: bash
       - name: Install CF plugin
         run: ibmcloud cf install -f
